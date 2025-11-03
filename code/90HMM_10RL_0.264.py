@@ -567,7 +567,7 @@ if __name__ == '__main__':
 
     # Train DQN (longer training for better convergence)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    policy_net, rewards = train_dqn(corpus_words, oracle, test_words, num_episodes=3000, batch_size=128, max_wrong=6, device=device)
+    policy_net, rewards = train_dqn(corpus_words, oracle, test_words, num_episodes=3000, batch_size=256, max_wrong=6, device=device)
 
     # Plot training rewards
     plt.figure(figsize=(8,4))
