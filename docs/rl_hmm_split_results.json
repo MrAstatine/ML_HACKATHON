@@ -1,0 +1,53 @@
+{
+  "results": [
+    {
+      "rl_weight": 0.05,
+      "hmm_weight": 0.95,
+      "success_rate": 0.254,
+      "total_wrong": 2735,
+      "total_repeats": 0,
+      "final_score": -13167.0,
+      "avg_training_reward": -28.91
+    },
+    {
+      "rl_weight": 0.1,
+      "hmm_weight": 0.9,
+      "success_rate": 0.228,
+      "total_wrong": 2756,
+      "total_repeats": 0,
+      "final_score": -13324.0,
+      "avg_training_reward": -35.755
+    },
+    {
+      "rl_weight": 0.15,
+      "hmm_weight": 0.85,
+      "success_rate": 0.242,
+      "total_wrong": 2741,
+      "total_repeats": 0,
+      "final_score": -13221.0,
+      "avg_training_reward": -32.77
+    },
+    {
+      "rl_weight": 0.2,
+      "hmm_weight": 0.8,
+      "success_rate": 0.238,
+      "total_wrong": 2765,
+      "total_repeats": 0,
+      "final_score": -13349.0,
+      "avg_training_reward": -38.08
+    }
+  ],
+  "best": {
+    "rl_weight": 0.05,
+    "hmm_weight": 0.95,
+    "success_rate": 0.254,
+    "total_wrong": 2735,
+    "total_repeats": 0,
+    "final_score": -13167.0,
+    "avg_training_reward": -28.91
+  },
+  "config": {
+    "training_episodes": 2000,
+    "eval_sample_size": 500
+  }
+}

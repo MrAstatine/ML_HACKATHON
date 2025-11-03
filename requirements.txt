@@ -1,0 +1,16 @@
+# Core Dependencies
+numpy>=1.19.0
+pandas>=1.2.0
+torch>=1.9.0
+tqdm>=4.60.0
+
+# Machine Learning
+scikit-learn>=0.24.0
+
+# Visualization
+matplotlib>=3.3.0
+
+# Optional (for Jupyter notebooks)
+jupyter>=1.0.0
+ipykernel>=6.0.0
+
