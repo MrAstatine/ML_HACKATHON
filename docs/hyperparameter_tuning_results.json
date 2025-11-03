@@ -1,0 +1,233 @@
+{
+  "results": [
+    {
+      "config": {
+        "dropout": 0.4,
+        "learning_rate": 0.0001,
+        "hidden_dim": 128,
+        "eps_start": 0.3,
+        "min_examples": 30
+      },
+      "success_rate": 0.26,
+      "total_wrong": 2717,
+      "total_repeats": 0,
+      "final_score": -13065.0,
+      "avg_training_reward": -45.825
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0001,
+        "hidden_dim": 128,
+        "eps_start": 0.5,
+        "min_examples": 20
+      },
+      "success_rate": 0.256,
+      "total_wrong": 2725,
+      "total_repeats": 0,
+      "final_score": -13113.0,
+      "avg_training_reward": -39.315
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0005,
+        "hidden_dim": 512,
+        "eps_start": 0.5,
+        "min_examples": 20
+      },
+      "success_rate": 0.252,
+      "total_wrong": 2725,
+      "total_repeats": 0,
+      "final_score": -13121.0,
+      "avg_training_reward": -36.515
+    },
+    {
+      "config": {
+        "dropout": 0.2,
+        "learning_rate": 0.0001,
+        "hidden_dim": 128,
+        "eps_start": 0.2,
+        "min_examples": 30
+      },
+      "success_rate": 0.256,
+      "total_wrong": 2727,
+      "total_repeats": 0,
+      "final_score": -13123.0,
+      "avg_training_reward": -26.39
+    },
+    {
+      "config": {
+        "dropout": 0.4,
+        "learning_rate": 0.0001,
+        "hidden_dim": 256,
+        "eps_start": 0.2,
+        "min_examples": 20
+      },
+      "success_rate": 0.256,
+      "total_wrong": 2728,
+      "total_repeats": 0,
+      "final_score": -13128.0,
+      "avg_training_reward": -35.875
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0005,
+        "hidden_dim": 512,
+        "eps_start": 0.3,
+        "min_examples": 40
+      },
+      "success_rate": 0.248,
+      "total_wrong": 2733,
+      "total_repeats": 0,
+      "final_score": -13169.0,
+      "avg_training_reward": -32.13
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0005,
+        "hidden_dim": 128,
+        "eps_start": 0.5,
+        "min_examples": 20
+      },
+      "success_rate": 0.252,
+      "total_wrong": 2735,
+      "total_repeats": 0,
+      "final_score": -13171.0,
+      "avg_training_reward": -33.755
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0001,
+        "hidden_dim": 512,
+        "eps_start": 0.3,
+        "min_examples": 30
+      },
+      "success_rate": 0.248,
+      "total_wrong": 2734,
+      "total_repeats": 0,
+      "final_score": -13174.0,
+      "avg_training_reward": -23.9
+    },
+    {
+      "config": {
+        "dropout": 0.4,
+        "learning_rate": 0.001,
+        "hidden_dim": 512,
+        "eps_start": 0.3,
+        "min_examples": 40
+      },
+      "success_rate": 0.248,
+      "total_wrong": 2739,
+      "total_repeats": 0,
+      "final_score": -13199.0,
+      "avg_training_reward": -42.465
+    },
+    {
+      "config": {
+        "dropout": 0.4,
+        "learning_rate": 0.0005,
+        "hidden_dim": 256,
+        "eps_start": 0.2,
+        "min_examples": 20
+      },
+      "success_rate": 0.246,
+      "total_wrong": 2743,
+      "total_repeats": 0,
+      "final_score": -13223.0,
+      "avg_training_reward": -43.245
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.0005,
+        "hidden_dim": 128,
+        "eps_start": 0.5,
+        "min_examples": 30
+      },
+      "success_rate": 0.236,
+      "total_wrong": 2744,
+      "total_repeats": 0,
+      "final_score": -13248.0,
+      "avg_training_reward": -44.125
+    },
+    {
+      "config": {
+        "dropout": 0.3,
+        "learning_rate": 0.0001,
+        "hidden_dim": 256,
+        "eps_start": 0.3,
+        "min_examples": 40
+      },
+      "success_rate": 0.228,
+      "total_wrong": 2747,
+      "total_repeats": 0,
+      "final_score": -13279.0,
+      "avg_training_reward": -33.99
+    },
+    {
+      "config": {
+        "dropout": 0.4,
+        "learning_rate": 0.001,
+        "hidden_dim": 512,
+        "eps_start": 0.3,
+        "min_examples": 20
+      },
+      "success_rate": 0.23,
+      "total_wrong": 2750,
+      "total_repeats": 0,
+      "final_score": -13290.0,
+      "avg_training_reward": -34.695
+    },
+    {
+      "config": {
+        "dropout": 0.1,
+        "learning_rate": 0.001,
+        "hidden_dim": 128,
+        "eps_start": 0.3,
+        "min_examples": 30
+      },
+      "success_rate": 0.242,
+      "total_wrong": 2758,
+      "total_repeats": 0,
+      "final_score": -13306.0,
+      "avg_training_reward": -37.9
+    },
+    {
+      "config": {
+        "dropout": 0.2,
+        "learning_rate": 0.0005,
+        "hidden_dim": 128,
+        "eps_start": 0.5,
+        "min_examples": 20
+      },
+      "success_rate": 0.23,
+      "total_wrong": 2754,
+      "total_repeats": 0,
+      "final_score": -13310.0,
+      "avg_training_reward": -43.035
+    }
+  ],
+  "best": {
+    "config": {
+      "dropout": 0.4,
+      "learning_rate": 0.0001,
+      "hidden_dim": 128,
+      "eps_start": 0.3,
+      "min_examples": 30
+    },
+    "success_rate": 0.26,
+    "total_wrong": 2717,
+    "total_repeats": 0,
+    "final_score": -13065.0,
+    "avg_training_reward": -45.825
+  },
+  "config": {
+    "training_episodes": 2000,
+    "eval_sample_size": 500,
+    "num_configs_tested": 15
+  }
+}

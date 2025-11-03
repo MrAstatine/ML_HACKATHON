@@ -68,7 +68,7 @@ class LengthSpecificNGramOracle:
     - predict_mask_prob(masked_word, guessed_letters): returns a probability vector over alphabet
       representing probability of each letter being in any of the blank positions, normalized.
     """
-    def __init__(self, n=2, min_examples=50):
+    def __init__(self, n=2, min_examples=30):
         self.n = n  # order (1 = unigram, 2 = bigram, etc.)
         self.min_examples = min_examples
         self.alphabet = list("abcdefghijklmnopqrstuvwxyz")
@@ -245,10 +245,10 @@ class DQN(nn.Module):
         self.net = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.4),
             nn.Linear(hidden_dim, hidden_dim),
             nn.ReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.4),
             nn.Linear(hidden_dim, output_dim)
         )
 
@@ -409,17 +409,17 @@ def train_dqn(corpus_words: List[str], oracle: LengthSpecificNGramOracle, test_w
     # Use the maximum supported length so all state vectors (padded) match the network
     rep_len = max(lens)
     input_dim = rep_len * 27 + 26 + 26
-    hidden_dim = 256
+    hidden_dim = 128  # Best from hyperparameter tuning
     output_dim = 26
     policy_net = DQN(input_dim, hidden_dim, output_dim).to(device)
     target_net = DQN(input_dim, hidden_dim, output_dim).to(device)
     target_net.load_state_dict(policy_net.state_dict())
-    optimizer = optim.Adam(policy_net.parameters(), lr=5e-4)  # Lower learning rate
+    optimizer = optim.Adam(policy_net.parameters(), lr=1e-4)  # Best learning rate from tuning
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=500, gamma=0.9)
     replay = ReplayBuffer(20000)
 
     gamma = 0.99
-    eps_start = 0.3  # Lower exploration since we trust oracle
+    eps_start = 0.3  # Best exploration start from tuning
     eps_end = 0.01
     eps_decay = num_episodes * 0.5
     target_update = 50
@@ -561,13 +561,13 @@ if __name__ == '__main__':
         test_words = corpus_words[split:split+1000]
         corpus_words = corpus_words[:split]
 
-    # Train oracle
-    oracle = LengthSpecificNGramOracle(n=2, min_examples=30)
+    # Train oracle with best hyperparameters
+    oracle = LengthSpecificNGramOracle(n=2, min_examples=30)  # Best from tuning
     oracle.fit(corpus_words)
 
-    # Train DQN (longer training for better convergence)
+    # Train DQN with optimized configuration
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    policy_net, rewards = train_dqn(corpus_words, oracle, test_words, num_episodes=3000, batch_size=256, max_wrong=6, device=device)
+    policy_net, rewards = train_dqn(corpus_words, oracle, test_words, num_episodes=3000, batch_size=128, max_wrong=6, device=device)
 
     # Plot training rewards
     plt.figure(figsize=(8,4))
