@@ -16,21 +16,29 @@ import torch.optim as optim
 
 # --- Hyperparameter Grid ---
 HYPERPARAMETER_GRID = {
-    'dropout': [0.1, 0.2, 0.3, 0.4],
-    'learning_rate': [1e-4, 5e-4, 1e-3],
-    'hidden_dim': [128, 256, 512],
-    'eps_start': [0.2, 0.3, 0.5],
-    'min_examples': [20, 30, 40],
+    'dropout': [0.1, 0.2, 0.3, 0.4, 0.5],
+    'learning_rate': [5e-5, 1e-4, 2e-4, 5e-4, 1e-3],
+    'hidden_dim': [64, 128, 192, 256, 384, 512],
+    'eps_start': [0.1, 0.2, 0.3, 0.4, 0.5],
+    'eps_decay_factor': [0.3, 0.4, 0.5, 0.6, 0.7],  # Multiplied by num_episodes
+    'min_examples': [15, 20, 25, 30, 35, 40, 50],
+    'batch_size': [32, 64, 128, 256],
+    'replay_buffer_size': [10000, 20000, 30000, 50000],
+    'target_update_freq': [25, 50, 75, 100],
+    'gamma': [0.95, 0.97, 0.99, 0.995],
+    'scheduler_step_size': [300, 500, 700, 1000],
+    'scheduler_gamma': [0.85, 0.9, 0.95],
+    'smoothing': [1.0, 1.5, 2.0, 2.5, 3.0],  # HMM smoothing parameter
 }
 
 # Fixed parameters
 TRAINING_EPISODES = 2000
 EVAL_SAMPLE_SIZE = 500
-RL_WEIGHT = 0.1  # Use best from script 1
-HMM_WEIGHT = 0.9
+RL_WEIGHT = 0.1  # Use best from script 1 - DO NOT CHANGE
+HMM_WEIGHT = 0.9  # DO NOT CHANGE
 
 # For faster search, we'll do random search instead of full grid
-NUM_RANDOM_CONFIGS = 15  # Test 15 random configurations
+NUM_RANDOM_CONFIGS = 40  # Test 40 random configurations
 
 # --- Utility functions ---
 
@@ -52,9 +60,10 @@ def get_smart_first_guesses(masked_word: str, guessed: set) -> Optional[str]:
 
 # --- HMM Oracle ---
 class LengthSpecificNGramOracle:
-    def __init__(self, n=2, min_examples=30):
+    def __init__(self, n=2, min_examples=30, smoothing=2.0):
         self.n = n
         self.min_examples = min_examples
+        self.smoothing = smoothing
         self.alphabet = list("abcdefghijklmnopqrstuvwxyz")
         self.idx = {c:i for i,c in enumerate(self.alphabet)}
         self.length_models = {}
@@ -81,7 +90,7 @@ class LengthSpecificNGramOracle:
     def _prob_next_char(self, ctx: str, length: int) -> np.ndarray:
         vocab = self.alphabet + ["$"]
         V = len(vocab)
-        probs = np.ones(len(vocab))
+        probs = np.ones(len(vocab)) * self.smoothing
         if length in self.length_models and ctx in self.length_models[length]:
             counts = self.length_models[length][ctx]
             for i, ch in enumerate(vocab):
@@ -303,7 +312,9 @@ def select_action(policy_net: DQN, state_vec: np.ndarray, guessed_letters: set, 
 
 def train_dqn(corpus_words: List[str], oracle: LengthSpecificNGramOracle, test_words: List[str],
               num_episodes: int, batch_size: int, max_wrong: int, device: torch.device,
-              dropout: float, learning_rate: float, hidden_dim: int, eps_start: float):
+              dropout: float, learning_rate: float, hidden_dim: int, eps_start: float,
+              eps_decay_factor: float, replay_buffer_size: int, target_update_freq: int,
+              gamma: float, scheduler_step_size: int, scheduler_gamma: float):
     """Training with configurable hyperparameters"""
     
     lens = sorted(oracle.length_models.keys())
@@ -317,13 +328,12 @@ def train_dqn(corpus_words: List[str], oracle: LengthSpecificNGramOracle, test_w
     target_net = DQN(input_dim, hidden_dim, output_dim, dropout).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     optimizer = optim.Adam(policy_net.parameters(), lr=learning_rate)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=500, gamma=0.9)
-    replay = ReplayBuffer(20000)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=scheduler_step_size, gamma=scheduler_gamma)
+    replay = ReplayBuffer(replay_buffer_size)
 
-    gamma = 0.99
     eps_end = 0.01
-    eps_decay = num_episodes * 0.5
-    target_update = 50
+    eps_decay = num_episodes * eps_decay_factor
+    target_update = target_update_freq
 
     episode_rewards = []
 
@@ -465,8 +475,12 @@ if __name__ == '__main__':
         for key, value in config.items():
             print(f"  {key}: {value}")
         
-        # Train oracle with config min_examples
-        oracle = LengthSpecificNGramOracle(n=2, min_examples=config['min_examples'])
+        # Train oracle with config min_examples and smoothing
+        oracle = LengthSpecificNGramOracle(
+            n=2, 
+            min_examples=config['min_examples'],
+            smoothing=config['smoothing']
+        )
         oracle.fit(corpus_words)
         
         # Train
@@ -474,13 +488,19 @@ if __name__ == '__main__':
         policy_net, rewards = train_dqn(
             corpus_words, oracle, test_words, 
             num_episodes=TRAINING_EPISODES, 
-            batch_size=128, 
+            batch_size=config['batch_size'], 
             max_wrong=6, 
             device=device,
             dropout=config['dropout'],
             learning_rate=config['learning_rate'],
             hidden_dim=config['hidden_dim'],
-            eps_start=config['eps_start']
+            eps_start=config['eps_start'],
+            eps_decay_factor=config['eps_decay_factor'],
+            replay_buffer_size=config['replay_buffer_size'],
+            target_update_freq=config['target_update_freq'],
+            gamma=config['gamma'],
+            scheduler_step_size=config['scheduler_step_size'],
+            scheduler_gamma=config['scheduler_gamma']
         )
         
         avg_reward = np.mean(rewards[-100:]) if len(rewards) >= 100 else np.mean(rewards)
@@ -535,7 +555,8 @@ if __name__ == '__main__':
         print(f"  {key}: {value}")
     
     # Save results
-    output_file = 'hyperparameter_tuning_results.json'
+    os.makedirs('docs', exist_ok=True)
+    output_file = 'docs/hyperparameter_tuning_results.json'
     with open(output_file, 'w') as f:
         json.dump({
             'results': results,
@@ -543,7 +564,9 @@ if __name__ == '__main__':
             'config': {
                 'training_episodes': TRAINING_EPISODES,
                 'eval_sample_size': EVAL_SAMPLE_SIZE,
-                'num_configs_tested': NUM_RANDOM_CONFIGS
+                'num_configs_tested': NUM_RANDOM_CONFIGS,
+                'rl_weight': RL_WEIGHT,
+                'hmm_weight': HMM_WEIGHT
             }
         }, f, indent=2)
     print(f"\nResults saved to {output_file}")

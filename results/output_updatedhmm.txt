@@ -1,0 +1,37 @@
+✅ Built n-gram counts: 28 unigrams, 728 bigrams, 9182 trigrams
+✅ Trained SHORT bucket HMM (<= 3) with 518 sequences.
+✅ Trained LONG bucket HMM (>= 18) with 330 sequences.
+✅ Trained 13 length-specific HMMs.
+✅ Global HMM trained.
+C:\Users\appoo\PES\Sem 5\ML\Hackathon\.venv\Lib\site-packages\torch\optim\lr_scheduler.py:192: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+Episode 100/3000 avg reward (last100): 47.18
+Episode 200/3000 avg reward (last100): 49.60
+Episode 300/3000 avg reward (last100): 48.88
+Episode 400/3000 avg reward (last100): 58.52
+Episode 500/3000 avg reward (last100): 57.95
+Episode 600/3000 avg reward (last100): 54.70
+Episode 700/3000 avg reward (last100): 63.55
+Episode 800/3000 avg reward (last100): 56.86
+Episode 900/3000 avg reward (last100): 50.95
+Episode 1000/3000 avg reward (last100): 57.10
+Episode 1100/3000 avg reward (last100): 62.11
+Episode 1200/3000 avg reward (last100): 68.42
+Episode 1300/3000 avg reward (last100): 56.87
+Episode 1400/3000 avg reward (last100): 57.52
+Episode 1500/3000 avg reward (last100): 57.44
+Episode 1600/3000 avg reward (last100): 57.59
+Episode 1700/3000 avg reward (last100): 57.30
+Episode 1800/3000 avg reward (last100): 64.77
+Episode 1900/3000 avg reward (last100): 56.69
+Episode 2000/3000 avg reward (last100): 64.27
+Episode 2100/3000 avg reward (last100): 66.45
+Episode 2200/3000 avg reward (last100): 65.20
+Episode 2300/3000 avg reward (last100): 74.08
+Episode 2400/3000 avg reward (last100): 70.31
+Episode 2500/3000 avg reward (last100): 61.17
+Episode 2600/3000 avg reward (last100): 59.77
+Episode 2700/3000 avg reward (last100): 58.81
+Episode 2800/3000 avg reward (last100): 65.27
+Episode 2900/3000 avg reward (last100): 68.03
+Episode 3000/3000 avg reward (last100): 67.24
